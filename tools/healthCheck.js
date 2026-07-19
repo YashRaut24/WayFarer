@@ -1,7 +1,15 @@
 const https = require("https");
 const { URL } = require("url");
 
+function normalizeUrl(url) {
+  if (!/^https?:\/\//i.test(url)) {
+    return `https://${url}`;
+  }
+  return url;
+}
+
 async function checkWebsiteHealth(targetUrl) {
+  targetUrl = normalizeUrl(targetUrl);
   const start = Date.now();
 
   const response = await fetch(targetUrl, { method: "GET" });

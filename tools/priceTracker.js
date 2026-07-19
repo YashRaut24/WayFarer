@@ -1,6 +1,13 @@
 const cheerio = require("cheerio");
 const PriceCheck = require("../api/models/PriceCheck");
 
+function normalizeUrl(url) {
+  if (!/^https?:\/\//i.test(url)) {
+    return `https://${url}`;
+  }
+  return url;
+}
+
 function extractPrice($) {
   const metaPrice = $('meta[property="product:price:amount"]').attr("content");
   if (metaPrice) return parseFloat(metaPrice);
@@ -16,6 +23,7 @@ function extractPrice($) {
 }
 
 async function trackPrice(url) {
+  url = normalizeUrl(url);
   const response = await fetch(url, {
     headers: { "User-Agent": "Mozilla/5.0 (Wayfarer bot)" },
   });
