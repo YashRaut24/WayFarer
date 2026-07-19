@@ -23,3 +23,11 @@
 .history-time {
     color: #9a8f7f;
 }
+
+.history-tool {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #b3401f;
+    font-weight: 700;
+    min-width: 130px;
+}
