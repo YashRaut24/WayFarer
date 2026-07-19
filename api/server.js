@@ -6,6 +6,8 @@ require("dotenv").config({ path: path.join(__dirname, "../.env"), quiet: true })
 const { summarizeArticle } = require("../tools/summarize");
 const { fetchLatestHeadlines } = require("../tools/headlines");
 const FetchLog = require("./models/FetchLog");
+const { trackPrice } = require("../tools/priceTracker");
+const { checkWebsiteHealth } = require("../tools/healthCheck");
 
 const app = express();
 app.use(cors());
@@ -52,6 +54,44 @@ app.post("/api/summarize", async (req, res) => {
 
     await FetchLog.create({
       tool: "summarize_article",
+      topic: url,
+      resultCount: 1,
+    });
+
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/api/track-price", async (req, res) => {
+  const { url } = req.body;
+  if (!url) return res.status(400).json({ error: "url is required" });
+
+  try {
+    const result = await trackPrice(url);
+
+    await FetchLog.create({
+      tool: "track_price",
+      topic: url,
+      resultCount: 1,
+    });
+
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/api/check-health", async (req, res) => {
+  const { url } = req.body;
+  if (!url) return res.status(400).json({ error: "url is required" });
+
+  try {
+    const result = await checkWebsiteHealth(url);
+
+    await FetchLog.create({
+      tool: "check_website_health",
       topic: url,
       resultCount: 1,
     });
