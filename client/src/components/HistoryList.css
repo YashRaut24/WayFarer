@@ -1,0 +1,25 @@
+.history-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    border-bottom: 2px solid #1a1a1a;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+}
+
+.history-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #ede4d6;
+    font-size: 13px;
+    color: #4a4238;
+}
+
+.history-topic {
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.history-time {
+    color: #9a8f7f;
+}
