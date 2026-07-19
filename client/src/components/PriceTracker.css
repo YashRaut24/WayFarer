@@ -1,0 +1,31 @@
+.tool-panel {
+    margin-bottom: 32px;
+}
+
+.price-result {
+    background: #fff;
+    border: 1px solid #ede4d6;
+    border-radius: 4px;
+    padding: 16px;
+}
+
+.price-current {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.price-drop {
+    color: #1a7a3c;
+    font-weight: 600;
+}
+
+.price-same {
+    color: #6b6155;
+}
+
+.price-first {
+    color: #9a8f7f;
+    font-style: italic;
+}
