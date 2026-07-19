@@ -1,12 +1,16 @@
 import { useState, useEffect } from "react";
+import { Tabs } from "./components/Tabs";
 import { SearchBar } from "./components/SearchBar";
 import { HeadlineList } from "./components/HeadlineList";
 import { HistoryList } from "./components/HistoryList";
+import { PriceTracker } from "./components/PriceTracker";
+import { HealthChecker } from "./components/HealthChecker";
 import "./App.css";
 
 const API_URL = "http://localhost:5000";
 
 function App() {
+  const [activeTab, setActiveTab] = useState("news");
   const [topic, setTopic] = useState("");
   const [headlines, setHeadlines] = useState([]);
   const [history, setHistory] = useState([]);
@@ -35,7 +39,6 @@ function App() {
         body: JSON.stringify({ topic: topic.trim() }),
       });
       const data = await res.json();
-
       if (!res.ok) throw new Error(data.error || "Something went wrong");
 
       setHeadlines(data.headlines);
@@ -54,19 +57,22 @@ function App() {
         <p className="tagline">Fetch the news, from anywhere you're building.</p>
       </header>
 
-      <SearchBar
-        topic={topic}
-        onTopicChange={setTopic}
-        onSubmit={handleFetch}
-        loading={loading}
-      />
+      <Tabs active={activeTab} onChange={setActiveTab} />
 
-      {error && <p className="error">{error}</p>}
+      {activeTab === "news" && (
+        <>
+          <SearchBar topic={topic} onTopicChange={setTopic} onSubmit={handleFetch} loading={loading} />
+          {error && <p className="error">{error}</p>}
+          <HeadlineList headlines={headlines} />
+        </>
+      )}
 
-      <HeadlineList headlines={headlines} />
+      {activeTab === "price" && <PriceTracker onLogged={loadHistory} />}
+
+      {activeTab === "health" && <HealthChecker onLogged={loadHistory} />}
 
       <section className="history-section">
-        <h2>Recent searches</h2>
+        <h2>Recent activity</h2>
         <HistoryList history={history} />
       </section>
     </div>
