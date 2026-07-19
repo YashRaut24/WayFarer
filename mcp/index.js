@@ -2,6 +2,7 @@ const path = require("path");
 require("dotenv").config({ path: path.join(__dirname, "../.env"), quiet: true });
 const { Server } = require("@modelcontextprotocol/sdk/server/index.js");
 const { StdioServerTransport } = require("@modelcontextprotocol/sdk/server/stdio.js");
+const { summarizeArticle } = require("../tools/summarize");
 const {
   ListToolsRequestSchema,
   CallToolRequestSchema,
@@ -30,6 +31,17 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
           required: ["topic"],
         },
       },
+      {
+        name: "summarize_article",
+        description: "Fetch an article by URL and return a readable summary",
+        inputSchema: {
+          type: "object",
+          properties: {
+            url: { type: "string", description: "The full URL of the article to summarize" },
+          },
+          required: ["url"],
+        },
+      },
     ],
   };
 });
@@ -47,6 +59,17 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       return { content: [{ type: "text", text: text || `No headlines found for "${args.topic}".` }] };
     } catch (err) {
       return { content: [{ type: "text", text: `Error fetching headlines: ${err.message}` }] };
+    }
+  }
+
+  if (name === "summarize_article") {
+    try {
+      const result = await summarizeArticle(args.url);
+      return {
+        content: [{ type: "text", text: `${result.title}\n\n${result.summary}` }],
+      };
+    } catch (err) {
+      return { content: [{ type: "text", text: `Error summarizing article: ${err.message}` }] };
     }
   }
 

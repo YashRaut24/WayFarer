@@ -3,7 +3,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const path = require("path");
 require("dotenv").config({ path: path.join(__dirname, "../.env"), quiet: true });
-
+const { summarizeArticle } = require("../tools/summarize");
 const { fetchLatestHeadlines } = require("../tools/headlines");
 const FetchLog = require("./models/FetchLog");
 
@@ -41,6 +41,25 @@ app.post("/api/fetch-headlines", async (req, res) => {
 app.get("/api/history", async (req, res) => {
   const logs = await FetchLog.find().sort({ createdAt: -1 }).limit(50);
   res.json({ logs });
+});
+
+app.post("/api/summarize", async (req, res) => {
+  const { url } = req.body;
+  if (!url) return res.status(400).json({ error: "url is required" });
+
+  try {
+    const result = await summarizeArticle(url);
+
+    await FetchLog.create({
+      tool: "summarize_article",
+      topic: url,
+      resultCount: 1,
+    });
+
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 const PORT = process.env.API_PORT || 5000;
