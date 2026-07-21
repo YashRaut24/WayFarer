@@ -5,6 +5,8 @@ export function Tabs({ active, onChange }) {
     { id: "news", label: "News & Headlines" },
     { id: "price", label: "Price Tracker" },
     { id: "health", label: "Health Checker" },
+    { id: "seo", label: "SEO Auditor" },
+    { id: "compare", label: "Compare Sources" },
   ];
 
   return (

@@ -5,6 +5,8 @@ import { HeadlineList } from "./components/HeadlineList";
 import { HistoryList } from "./components/HistoryList";
 import { PriceTracker } from "./components/PriceTracker";
 import { HealthChecker } from "./components/HealthChecker";
+import { SeoAuditor } from "./components/SeoAuditor";
+import { SourceComparison } from "./components/SourceComparison";
 import "./App.css";
 
 const API_URL = "http://localhost:5000";
@@ -70,6 +72,11 @@ function App() {
       {activeTab === "price" && <PriceTracker onLogged={loadHistory} />}
 
       {activeTab === "health" && <HealthChecker onLogged={loadHistory} />}
+
+      
+      {activeTab === "seo" && <SeoAuditor onLogged={loadHistory} />}
+
+      {activeTab === "compare" && <SourceComparison onLogged={loadHistory} />}
 
       <section className="history-section">
         <h2>Recent activity</h2>
