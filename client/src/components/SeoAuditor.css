@@ -1,0 +1,57 @@
+.seo-result {
+    background: #fff;
+    border: 1px solid #ede4d6;
+    border-radius: 4px;
+    padding: 20px;
+}
+
+.seo-score {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.seo-issues h3,
+.seo-passed h3 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #6b6155;
+    margin: 16px 0 8px;
+}
+
+.seo-issue {
+    padding: 8px 10px;
+    border-radius: 4px;
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+.seo-severity {
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 11px;
+    margin-right: 6px;
+}
+
+.seo-high {
+    background: #fdeceb;
+    color: #b3401f;
+}
+
+.seo-medium {
+    background: #fef6e8;
+    color: #a6720f;
+}
+
+.seo-low {
+    background: #eef4f0;
+    color: #3f6b52;
+}
+
+.seo-pass-item {
+    font-size: 13px;
+    color: #1a7a3c;
+    margin-bottom: 4px;
+}
