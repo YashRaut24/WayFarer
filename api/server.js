@@ -8,6 +8,8 @@ const { fetchLatestHeadlines } = require("../tools/headlines");
 const FetchLog = require("./models/FetchLog");
 const { trackPrice } = require("../tools/priceTracker");
 const { checkWebsiteHealth } = require("../tools/healthCheck");
+const { auditSeo } = require("../tools/seoAudit");
+const { compareSources } = require("../tools/compareSources");
 
 const app = express();
 app.use(cors());
@@ -105,4 +107,30 @@ app.post("/api/check-health", async (req, res) => {
 const PORT = process.env.API_PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Wayfarer API running on port ${PORT}`);
+});
+
+app.post("/api/audit-seo", async (req, res) => {
+  const { url } = req.body;
+  if (!url) return res.status(400).json({ error: "url is required" });
+
+  try {
+    const result = await auditSeo(url);
+    await FetchLog.create({ tool: "audit_seo", topic: url, resultCount: result.issues.length });
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/api/compare-sources", async (req, res) => {
+  const { topic } = req.body;
+  if (!topic) return res.status(400).json({ error: "topic is required" });
+
+  try {
+    const results = await compareSources(topic);
+    await FetchLog.create({ tool: "compare_sources", topic, resultCount: results.length });
+    res.json({ comparison: results });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });

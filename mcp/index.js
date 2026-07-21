@@ -10,6 +10,8 @@ const {
 const { trackPrice } = require("../tools/priceTracker");
 const { checkWebsiteHealth } = require("../tools/healthCheck");
 const { fetchLatestHeadlines } = require("../tools/headlines");
+const { auditSeo } = require("../tools/seoAudit");
+const { compareSources } = require("../tools/compareSources");
 
 const server = new Server(
   { name: "wayfarer", version: "1.0.0" },
@@ -64,6 +66,24 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             url: { type: "string", description: "The website URL to check, including https://" },
           },
           required: ["url"],
+        },
+      },
+      {
+        name: "audit_seo",
+        description: "Scan a webpage for common SEO issues: missing meta tags, alt text, heading structure",
+        inputSchema: {
+          type: "object",
+          properties: { url: { type: "string", description: "The page URL to audit" } },
+          required: ["url"],
+        },
+      },
+      {
+        name: "compare_sources",
+        description: "Fetch how different news outlets are covering the same topic, side by side",
+        inputSchema: {
+          type: "object",
+          properties: { topic: { type: "string", description: "The topic to compare coverage of" } },
+          required: ["topic"],
         },
       },
     ],
@@ -121,6 +141,26 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       return { content: [{ type: "text", text }] };
     } catch (err) {
       return { content: [{ type: "text", text: `Error checking website: ${err.message}` }] };
+    }
+  }
+
+  if (name === "audit_seo") {
+    try {
+      const result = await auditSeo(args.url);
+      const issuesText = result.issues.map((i) => `[${i.severity}] ${i.message}`).join("\n") || "No issues found";
+      return { content: [{ type: "text", text: `SEO Score: ${result.score}\n\n${issuesText}` }] };
+    } catch (err) {
+      return { content: [{ type: "text", text: `Error auditing page: ${err.message}` }] };
+    }
+  }
+
+  if (name === "compare_sources") {
+    try {
+      const results = await compareSources(args.topic);
+      const text = results.map((r) => `${r.source}: ${r.title}`).join("\n\n");
+      return { content: [{ type: "text", text }] };
+    } catch (err) {
+      return { content: [{ type: "text", text: `Error comparing sources: ${err.message}` }] };
     }
   }
 
