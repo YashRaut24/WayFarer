@@ -12,7 +12,14 @@ const { auditSeo } = require("../tools/seoAudit");
 const { compareSources } = require("../tools/compareSources");
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      process.env.CLIENT_URL,
+    ],
+  })
+);
 app.use(express.json());
 
 mongoose
@@ -104,7 +111,7 @@ app.post("/api/check-health", async (req, res) => {
   }
 });
 
-const PORT = process.env.API_PORT || 5000;
+const PORT = process.env.PORT || process.env.API_PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Wayfarer API running on port ${PORT}`);
 });
