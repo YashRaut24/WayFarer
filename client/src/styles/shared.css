@@ -1,0 +1,217 @@
+/* ==========================================================================
+   Shared primitives — buttons, inputs, cards, empty states, skeletons.
+   Every tool panel builds on these instead of redefining its own.
+   ========================================================================== */
+
+/* Buttons ---------------------------------------------------------------- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    height: 44px;
+    padding: 0 var(--space-5);
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+.btn:disabled {
+    opacity: 0.55;
+    cursor: default;
+    transform: none;
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: var(--accent-hover);
+}
+
+.btn-secondary {
+    background: var(--surface);
+    border-color: var(--border-strong);
+    color: var(--text);
+}
+
+.btn-secondary:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.btn-ghost {
+    background: transparent;
+    border-color: var(--accent);
+    color: var(--accent);
+    height: 34px;
+    padding: 0 var(--space-4);
+    font-size: 13px;
+}
+
+.btn-ghost:hover:not(:disabled) {
+    background: var(--accent);
+    color: #fff;
+}
+
+.btn-danger {
+    background: var(--danger);
+    color: #fff;
+}
+
+.btn-danger:hover:not(:disabled) {
+    background: var(--accent-hover);
+}
+
+/* Inputs ------------------------------------------------------------------ */
+.input {
+    height: 44px;
+    padding: 0 var(--space-4);
+    font-size: 15px;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.input::placeholder {
+    color: var(--text-faint);
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* Tool search row ---------------------------------------------------------- */
+.search-bar {
+    display: flex;
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
+    max-width: 900px;
+}
+
+.search-bar .input {
+    flex: 1;
+}
+
+/* Shared wrapper every non-News tool panel uses -------------------------- */
+.tool-panel {
+    max-width: 640px;
+}
+
+/* Generic result card ------------------------------------------------------ */
+.result-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-5);
+    animation: card-in 0.2s ease;
+}
+
+@keyframes card-in {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Status text tokens, reused across Health/Price/SEO ----------------------- */
+.status-good {
+    color: var(--success);
+}
+
+.status-bad {
+    color: var(--danger);
+}
+
+.status-warn {
+    color: var(--warning);
+}
+
+.error-text {
+    color: var(--danger);
+    font-size: 13px;
+    margin-bottom: var(--space-4);
+}
+
+/* Empty state ---------------------------------------------------------------
+   Every tool shows one of these before its first result instead of blank space. */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+    max-width: 900px;
+    padding: var(--space-6) var(--space-5);
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--radius-md);
+    color: var(--text-faint);
+}
+
+.empty-state-icon {
+    color: var(--text-faint);
+    opacity: 0.8;
+}
+
+.empty-state p {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    max-width: 40ch;
+    line-height: 1.5;
+}
+
+/* Skeleton loading ----------------------------------------------------------- */
+.skeleton {
+    position: relative;
+    overflow: hidden;
+    background: var(--surface-sunken);
+    border-radius: var(--radius-sm);
+}
+
+.skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    animation: shimmer 1.3s infinite;
+}
+
+@keyframes shimmer {
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* Accordion (used by headline summary expansion) ----------------------------- */
+.accordion {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.22s ease;
+}
+
+.accordion.open {
+    grid-template-rows: 1fr;
+}
+
+.accordion>div {
+    overflow: hidden;
+}

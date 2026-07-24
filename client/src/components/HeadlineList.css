@@ -1,6 +1,37 @@
 .headline-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 16px;
-    margin-bottom: 48px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    align-items: start;
+    gap: var(--space-4);
+}
+
+.headline-skeleton-card {
+    height: 152px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.headline-skeleton-card .skeleton:nth-child(1) {
+    width: 70px;
+    height: 16px;
+    border-radius: 100px;
+}
+
+.headline-skeleton-card .skeleton:nth-child(2) {
+    width: 100%;
+    height: 14px;
+}
+
+.headline-skeleton-card .skeleton:nth-child(3) {
+    width: 85%;
+    height: 14px;
+}
+
+.headline-skeleton-card .skeleton:nth-child(4) {
+    width: 50%;
+    height: 14px;
 }

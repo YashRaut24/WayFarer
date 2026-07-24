@@ -38,30 +38,40 @@ export function PriceTracker({ onLogged }) {
       <div className="search-bar">
         <input
           type="text"
+          className="input"
           placeholder="Product page URL"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleCheck()}
         />
-        <button onClick={handleCheck} disabled={loading}>
+        <button className="btn btn-primary" onClick={handleCheck} disabled={loading}>
           {loading ? "Checking..." : "Track price"}
         </button>
       </div>
 
-      {error && <p className="error">{error}</p>}
+      {error && <p className="error-text">{error}</p>}
 
       {result && (
-        <div className="price-result">
-          <div className="price-current">Current price: {result.price}</div>
+        <div className="result-card">
+          <div className="price-current">{result.price}</div>
           {result.previousPrice !== null ? (
             <div className={result.priceDropped ? "price-drop" : "price-same"}>
               {result.priceDropped
-                ? `Price dropped by ${result.difference} (was ${result.previousPrice})`
-                : `No drop — previous price was ${result.previousPrice}`}
+                ? `Dropped ${result.difference} — was ${result.previousPrice}`
+                : `No change — previous check was ${result.previousPrice}`}
             </div>
           ) : (
             <div className="price-first">First recorded check for this URL.</div>
           )}
+        </div>
+      )}
+
+      {!result && !loading && !error && (
+        <div className="empty-state">
+          <svg className="empty-state-icon" width="22" height="22" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4">
+            <path d="M11 3.5H5.5A1.5 1.5 0 0 0 4 5v5.5L10.5 17l6-6L11 3.5Z" />
+          </svg>
+          <p>Paste a product page URL to record its current price.</p>
         </div>
       )}
     </div>

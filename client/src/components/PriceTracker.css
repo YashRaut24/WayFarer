@@ -1,31 +1,23 @@
-.tool-panel {
-    margin-bottom: 32px;
-}
-
-.price-result {
-    background: #fff;
-    border: 1px solid #ede4d6;
-    border-radius: 4px;
-    padding: 16px;
-}
-
 .price-current {
-    font-family: 'Playfair Display', serif;
-    font-size: 20px;
+    font-family: var(--font-display);
+    font-size: 21px;
     font-weight: 700;
-    margin-bottom: 6px;
+    margin-bottom: var(--space-2);
 }
 
 .price-drop {
-    color: #1a7a3c;
+    color: var(--success);
     font-weight: 600;
+    font-size: 13.5px;
 }
 
 .price-same {
-    color: #6b6155;
+    color: var(--text-muted);
+    font-size: 13.5px;
 }
 
 .price-first {
-    color: #9a8f7f;
+    color: var(--text-faint);
     font-style: italic;
+    font-size: 13.5px;
 }

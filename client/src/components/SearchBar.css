@@ -1,4 +1,4 @@
-.search-bar {
+/* .search-bar {
     display: flex;
     gap: 10px;
     margin-bottom: 24px;
@@ -37,4 +37,4 @@
 .search-bar button:disabled {
     opacity: 0.6;
     cursor: default;
-}
+} */

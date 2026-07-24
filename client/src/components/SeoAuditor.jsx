@@ -38,20 +38,21 @@ export function SeoAuditor({ onLogged }) {
       <div className="search-bar">
         <input
           type="text"
+          className="input"
           placeholder="Page URL to audit"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleAudit()}
         />
-        <button onClick={handleAudit} disabled={loading}>
+        <button className="btn btn-primary" onClick={handleAudit} disabled={loading}>
           {loading ? "Auditing..." : "Audit page"}
         </button>
       </div>
 
-      {error && <p className="error">{error}</p>}
+      {error && <p className="error-text">{error}</p>}
 
       {result && (
-        <div className="seo-result">
+        <div className="result-card">
           <div className="seo-score">Score: {result.score}</div>
 
           {result.issues.length > 0 && (
@@ -73,6 +74,16 @@ export function SeoAuditor({ onLogged }) {
               ))}
             </div>
           )}
+        </div>
+      )}
+
+      {!result && !loading && !error && (
+        <div className="empty-state">
+          <svg className="empty-state-icon" width="22" height="22" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4">
+            <circle cx="8.5" cy="8.5" r="5" />
+            <line x1="12.3" y1="12.3" x2="17" y2="17" strokeLinecap="round" />
+          </svg>
+          <p>Enter a page URL to check for missing meta tags, alt text, and heading issues.</p>
         </div>
       )}
     </div>
